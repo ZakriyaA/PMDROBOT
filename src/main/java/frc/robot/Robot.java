@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 
 /**
  * This is a demo program showing the use of the DifferentialDrive class,
@@ -25,8 +26,8 @@ public class Robot extends TimedRobot {
   private final MotorController m_rightMotor = new PWMSparkMax(1); // Right drive motor connected to PWM port 1
 
   // Declaration of motor controller objects for additional motors
-  private final MotorController m_extraMotor1 = new PWMSparkMax(2); // Extra motor 1 connected to PWM port 2
-  private final MotorController m_extraMotor2 = new PWMSparkMax(3); // Extra motor 2 connected to PWM port 3
+  private final MotorController m_extraMotor1 = new Talon(8); // Extra motor 1 connected to PWM port 2
+  private final MotorController m_extraMotor2 = new Talon(9); // Extra motor 2 connected to PWM port 3
 
   @Override
   public void robotInit() {
@@ -45,16 +46,31 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     // Control the robot using tank drive by getting the Y-axis values from the joysticks
     m_myRobot.tankDrive(-m_leftStick.getY(), -m_rightStick.getY());
+    if (m_rightStick.getRawButton(1)) {
 
-    // Check if button 1 on the left joystick is pressed
-    if (m_leftStick.getRawButton(1)) {
       // Set the extra motors to a certain speed when the button is pressed
-      m_extraMotor1.set(0.5); // Set motor 1 to 50% speed
-      m_extraMotor2.set(0.5); // Set motor 2 to 50% speed
+      m_extraMotor1.set(1.0); // Set motor 1 to 50% speed
+      m_extraMotor2.set(1.0); // Set motor 2 to 50% speed
     } else {
       // Stop the extra motors when the button is not pressed
       m_extraMotor1.stopMotor();
       m_extraMotor2.stopMotor();
-    }
+
+
+    // Check if button 1 on the left joystick is pressed
+    if (m_leftStick.getRawButton(1)) {
+      // Set the extra motors to a certain speed when the button is pressed
+      m_extraMotor1.setInverted(true);
+      m_extraMotor2.setInverted(true);
+      m_extraMotor1.set(1.0); // Set motor 1 to 50% speed
+      m_extraMotor2.set(1.0); // Set motor 2 to 50% speed
+    } else {
+      // Stop the extra motors when the button is not pressed
+      m_extraMotor1.setInverted(false);
+      m_extraMotor2.setInverted(false);
+      m_extraMotor1.stopMotor();
+      m_extraMotor2.stopMotor();
   }
+}
+}
 }
