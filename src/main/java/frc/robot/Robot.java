@@ -35,6 +35,7 @@ public class Robot extends TimedRobot {
     // Invert the right motor to ensure both motors move the robot forward
     m_rightMotor.setInverted(true);
 
+
     // Initialize the differential drive with the left and right motors
     m_myRobot = new DifferentialDrive(m_leftMotor, m_rightMotor);
 
@@ -46,7 +47,9 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     // Control the robot using tank drive by getting the Y-axis values from the joysticks
-    m_myRobot.tankDrive(-m_leftStick.getY(), -m_rightStick.getY());
+    double sliderValue = m_rightStick.getRawAxis(3);
+    double throttle = (sliderValue + 1.0) / 2.0;
+    m_myRobot.tankDrive(-m_leftStick.getY() * throttle, -m_rightStick.getY() * throttle);
     if (m_rightStick.getRawButton(1)) {
 
       // Set the extra motors to a certain speed when the button is pressed
