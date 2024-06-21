@@ -30,6 +30,9 @@ public class Robot extends TimedRobot {
   private final MotorController m_extraMotor2 = new Talon(9); // Extra motor 2 connected to PWM port 3
   private final MotorController m_Lift1 = new Talon(5);
   private final MotorController m_Lift2 = new Talon(6);
+    // Timer and flag for driving straight
+  private final Timer m_timer = new Timer();
+  private boolean m_driveStraight = false;
   @Override
   public void robotInit() {
     // Invert the right motor to ensure both motors move the robot forward
@@ -45,6 +48,22 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+        // Drive straight for 5 seconds when button 3 on the right joystick is pressed
+    if (m_rightStick.getRawButtonPressed(3)) {
+      m_driveStraight = true;
+      m_timer.reset();
+      m_timer.start();
+    }
+
+    if (m_driveStraight) {
+      if (m_timer.get() < 2.0) {
+        m_myRobot.tankDrive(0.5, 0.5); // Drive straight at 50% speed
+      } else {
+        m_driveStraight = false;
+        m_myRobot.tankDrive(0.0, 0.0); // Stop the robot
+        m_timer.stop();
+      }
+      return; // Skip the rest of teleopPeriodic while driving straight
     // Control the robot using tank drive by getting the Y-axis values from the joysticks
     m_myRobot.tankDrive(-m_leftStick.getY(), -m_rightStick.getY());
     if (m_rightStick.getRawButton(1)) {
