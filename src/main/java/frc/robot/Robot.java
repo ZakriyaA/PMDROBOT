@@ -28,7 +28,8 @@ public class Robot extends TimedRobot {
   // Declaration of motor controller objects for additional motors
   private final MotorController m_extraMotor1 = new Talon(8); // Extra motor 1 connected to PWM port 2
   private final MotorController m_extraMotor2 = new Talon(9); // Extra motor 2 connected to PWM port 3
-
+  private final MotorController m_Lift1 = new Talon(5);
+  private final MotorController m_Lift2 = new Talon(6);
   @Override
   public void robotInit() {
     // Invert the right motor to ensure both motors move the robot forward
@@ -49,8 +50,8 @@ public class Robot extends TimedRobot {
     if (m_rightStick.getRawButton(1)) {
 
       // Set the extra motors to a certain speed when the button is pressed
-      m_extraMotor1.set(1.0); // Set motor 1 to 50% speed
-      m_extraMotor2.set(1.0); // Set motor 2 to 50% speed
+      m_extraMotor1.set(1000.0); // Set motor 1 to 50% speed
+      m_extraMotor2.set(1000.0); // Set motor 2 to 50% speed
     } else {
       // Stop the extra motors when the button is not pressed
       m_extraMotor1.stopMotor();
@@ -62,8 +63,8 @@ public class Robot extends TimedRobot {
       // Set the extra motors to a certain speed when the button is pressed
       m_extraMotor1.setInverted(true);
       m_extraMotor2.setInverted(true);
-      m_extraMotor1.set(1.0); // Set motor 1 to 50% speed
-      m_extraMotor2.set(1.0); // Set motor 2 to 50% speed
+      m_extraMotor1.set(1000.0); // Set motor 1 to 50% speed
+      m_extraMotor2.set(1000.0); // Set motor 2 to 50% speed
     } else {
       // Stop the extra motors when the button is not pressed
       m_extraMotor1.setInverted(false);
@@ -71,6 +72,18 @@ public class Robot extends TimedRobot {
       m_extraMotor1.stopMotor();
       m_extraMotor2.stopMotor();
   }
+      if (m_leftStick.getRawButton(2)) {
+      // Set the extra motors to a certain speed when the button is pressed
+      m_Lift1.set(-1.0);
+      m_Lift2.set(-1.0);
+
+    } 
+if (m_rightStick.getRawButton(2)) {
+  // Set the extra motors to a certain speed when the button is pressed
+  m_Lift1.set(1.0);
+  m_Lift2.set(1.0);
+
+} 
+
 }
-}
-}
+}}
