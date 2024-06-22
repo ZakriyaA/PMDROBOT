@@ -41,7 +41,6 @@ public class Robot extends TimedRobot {
     // Initialize the joysticks on ports 0 and 1
     m_leftStick = new Joystick(0);
     m_rightStick = new Joystick(1);
-  }
 
     // Start the timer for the initial 5-second forward movement
     m_timer.reset();
