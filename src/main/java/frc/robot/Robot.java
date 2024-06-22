@@ -66,37 +66,48 @@ public class Robot extends TimedRobot {
       return; // Skip the rest of teleopPeriodic while driving straight
     // Control the robot using tank drive by getting the Y-axis values from the joysticks
     m_myRobot.tankDrive(-m_leftStick.getY(), -m_rightStick.getY());
+
+    // Check if button 1 on the right joystick is pressed
     if (m_rightStick.getRawButton(1)) {
 
       // Set the extra motors to a certain speed when the button is pressed
-      m_extraMotor1.set(1000.0); // Set motor 1 to 50% speed
-      m_extraMotor2.set(1000.0); // Set motor 2 to 50% speed
+      m_extraMotor1.set(1.0); // Set motor 1 to full speed
+      m_extraMotor2.set(1.0); // Set motor 2 to full speed
     } else {
       // Stop the extra motors when the button is not pressed
       m_extraMotor1.stopMotor();
       m_extraMotor2.stopMotor();
-
+    }
 
     // Check if button 1 on the left joystick is pressed
     if (m_leftStick.getRawButton(1)) {
-      // Set the extra motors to a certain speed when the button is pressed
+      // Invert and set the extra motors to a certain speed when the button is pressed
       m_extraMotor1.setInverted(true);
       m_extraMotor2.setInverted(true);
-      m_extraMotor1.set(1000.0); // Set motor 1 to 50% speed
-      m_extraMotor2.set(1000.0); // Set motor 2 to 50% speed
+      m_extraMotor1.set(1.0); // Set motor 1 to full speed
+      m_extraMotor2.set(1.0); // Set motor 2 to full speed
     } else {
-      // Stop the extra motors when the button is not pressed
+      // Stop the extra motors and reset inversion when the button is not pressed
       m_extraMotor1.setInverted(false);
       m_extraMotor2.setInverted(false);
       m_extraMotor1.stopMotor();
       m_extraMotor2.stopMotor();
-  }
-      if (m_leftStick.getRawButton(2)) {
-      // Set the extra motors to a certain speed when the button is pressed
-      m_Lift1.set(-1.0);
-      m_Lift2.set(-1.0);
+    }
 
-    } 
+    // Check if button 2 on the left joystick is pressed
+    if (m_leftStick.getRawButton(2)) {
+      // Lower the lift motors when the button is pressed
+      m_liftMotor1.set(-1.0);
+      m_liftMotor2.set(-1.0);
+    } else if (m_rightStick.getRawButton(2)) {
+      // Raise the lift motors when the button is pressed
+      m_liftMotor1.set(1.0);
+      m_liftMotor2.set(1.0);
+    } else {
+      // Stop the lift motors when no button is pressed
+      m_liftMotor1.stopMotor();
+      m_liftMotor2.stopMotor();
+    }
 if (m_rightStick.getRawButton(2)) {
   // Set the extra motors to a certain speed when the button is pressed
   m_Lift1.set(1.0);
